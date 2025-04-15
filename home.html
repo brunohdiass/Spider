@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Soleir - Rede Social</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styleshome.css">
+    <script src="spiderhome.js" defer></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Coluna esquerda - Menu -->
+        <div class="left-column">
+            <div class="logo">O Soleir</div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>Página Inicial</span></a>
+                <a href="#" class="nav-item"><i class="fas fa-search"></i><span>Explorar</span></a>
+                <a href="#" class="nav-item"><i class="fas fa-compass"></i><span>Descobrir</span></a>
+                <a href="#" class="nav-item"><i class="fas fa-film"></i><span>Reels</span></a>
+                <a href="#" class="nav-item"><i class="fas fa-envelope"></i><span>Mensagens</span></a>
+                <a href="#" class="nav-item"><i class="fas fa-heart"></i><span>Notificações</span></a>
+                <a href="#" class="nav-item"><i class="fas fa-plus-square"></i><span>Criar</span></a>
+                <a href="#" class="nav-item"><i class="fas fa-user"></i><span>Perfil</span></a>
+                <div class="more-menu">
+                    <a href="#" class="nav-item"><i class="fas fa-bars"></i><span>Mais</span></a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Coluna central - Posts -->
+        <div class="center-column">
+            <div class="stories-container" id="storiesContainer"></div>
+            <div id="postsContainer"></div>
+        </div>
+
+        <!-- Coluna direita - Sugestões -->
+        <div class="right-column">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/11.jpg" alt="Usuário">
+                </div>
+                <div class="user-info">
+                    <div class="username">seu_usuario</div>
+                    <div class="name">Seu Nome</div>
+                </div>
+                <div class="switch-button">Mudar</div>
+            </div>
+
+            <div class="suggestions-box">
+                <div class="suggestions-header">
+                    <span class="suggestions-title">Sugestões para você</span>
+                    <a href="#" class="see-all">Ver tudo</a>
+                </div>
+                <div id="suggestionsContainer"></div>
+            </div>
+
+        
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
