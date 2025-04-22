@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O Soleir - Rede Social</title>
+    <title>Rede Social</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styleshome.css">
     <script src="spiderhome.js" defer></script>
@@ -12,12 +12,12 @@
     <div class="app-container">
         <!-- Coluna esquerda - Menu -->
         <div class="left-column">
-            <div class="logo">O Soleir</div>
+            <div class="logo">
+                <a href="../../img/logoJF.png"></a>
+            </div>
             <nav class="nav-menu">
                 <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>Página Inicial</span></a>
                 <a href="#" class="nav-item"><i class="fas fa-search"></i><span>Explorar</span></a>
-                <a href="#" class="nav-item"><i class="fas fa-compass"></i><span>Descobrir</span></a>
-                <a href="#" class="nav-item"><i class="fas fa-film"></i><span>Reels</span></a>
                 <a href="#" class="nav-item"><i class="fas fa-envelope"></i><span>Mensagens</span></a>
                 <a href="#" class="nav-item"><i class="fas fa-heart"></i><span>Notificações</span></a>
                 <a href="#" class="nav-item"><i class="fas fa-plus-square"></i><span>Criar</span></a>
@@ -31,14 +31,43 @@
         <!-- Coluna central - Posts -->
         <div class="center-column">
             <div class="stories-container" id="storiesContainer"></div>
-            <div id="postsContainer"></div>
+
+            <div id="postsContainer">
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Usuário">
+                        </div>
+                        <div class="post-username">julia_santos</div>
+                        <div class="post-more"><i class="fas fa-ellipsis-h"></i></div>
+                    </div>
+                    <div class="post-content">
+                        <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e" alt="Postagem" style="width: 100%; border-radius: 8px;">
+                        <div class="post-actions">
+                            <i class="far fa-heart"></i>
+                            <i class="far fa-comment"></i>
+                            <i class="far fa-paper-plane"></i>
+                            <i class="far fa-bookmark save"></i>
+                        </div>
+                        <div class="post-likes">1.204 curtidas</div>
+                        <div class="post-text"><span class="highlight">julia_santos</span> Dia perfeito para um café ☕ e um bom livro 📖.</div>
+                        <div class="post-comments">Ver todos os 32 comentários</div>
+                        <div class="post-time">HÁ 2 HORAS</div>
+                    </div>
+                    <div class="post-add-comment">
+                        <input type="text" placeholder="Adicione um comentário...">
+                        <button>Publicar</button>
+                    </div>
+                </div>
+            </div>
+            
         </div>
 
         <!-- Coluna direita - Sugestões -->
         <div class="right-column">
             <div class="user-profile">
                 <div class="user-avatar">
-                    <img src="https://randomuser.me/api/portraits/men/11.jpg" alt="Usuário">
+                    <img src="" alt="Usuário">
                 </div>
                 <div class="user-info">
                     <div class="username">seu_usuario</div>
@@ -47,19 +76,12 @@
                 <div class="switch-button">Mudar</div>
             </div>
 
-            <div class="suggestions-box">
-                <div class="suggestions-header">
-                    <span class="suggestions-title">Sugestões para você</span>
-                    <a href="#" class="see-all">Ver tudo</a>
-                </div>
-                <div id="suggestionsContainer"></div>
-            </div>
-
-        
-            </div>
+            
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
 </body>
 </html>

@@ -1,225 +1,322 @@
-// Dados da aplicação
-const appData = {
-    stories: [
-        { id: 1, username: "Vítor", avatar: "https://randomuser.me/api/portraits/men/1.jpg" },
-        { id: 2, username: "Michael", avatar: "https://randomuser.me/api/portraits/men/2.jpg" },
-        { id: 3, username: "Michel", avatar: "https://randomuser.me/api/portraits/men/3.jpg" },
-        { id: 4, username: "Ana", avatar: "https://randomuser.me/api/portraits/women/1.jpg" },
-        { id: 5, username: "Julia", avatar: "https://randomuser.me/api/portraits/women/2.jpg" }
-    ],
-
-    posts: [
-        {
-            id: 1,
-            username: "Vítor de Jesus",
-            avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-            content: "<span class='highlight'>Este comprador</span>",
-            likes: 1234,
-            comments: [],
-            time: "HÁ 2 HORAS"
-        },
-        {
-            id: 2,
-            username: "Michael B. Jordan",
-            avatar: "https://randomuser.me/api/portraits/men/2.jpg",
-            content: "Jornada",
-            likes: 8921,
-            comments: [],
-            time: "HÁ 5 HORAS"
-        },
-        {
-            id: 3,
-            username: "Michel Jardim",
-            avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-            content: "Neste dia quase teniaí existente!",
-            likes: 567,
-            comments: [],
-            time: "HÁ 1 DIA"
-        },
-        {
-            id: 4,
-            username: "Vítor de Jesus",
-            avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-            content: "<span class='highlight'>Servei jovial</span>",
-            likes: 890,
-            comments: [],
-            time: "HÁ 1 DIA"
-        },
-        {
-            id: 5,
-            username: "O Soleir",
-            avatar: "https://randomuser.me/api/portraits/men/33.jpg",
-            content: "O Soleir é uma rede social...",
-            likes: 2345,
-            comments: [],
-            time: "HÁ 3 DIAS"
-        }
-    ],
-
-    suggestions: [
-        { id: 1, username: "amiga_artista", avatar: "https://randomuser.me/api/portraits/women/3.jpg", status: "Segue você" },
-        { id: 2, username: "fotografo_pro", avatar: "https://randomuser.me/api/portraits/men/4.jpg", status: "Novo no Instagram" },
-        { id: 3, username: "chef_de_cozinha", avatar: "https://randomuser.me/api/portraits/women/4.jpg", status: "Segue você" },
-        { id: 4, username: "viajante_mundo", avatar: "https://randomuser.me/api/portraits/men/5.jpg", status: "Novo no Instagram" },
-        { id: 5, username: "designer_graf", avatar: "https://randomuser.me/api/portraits/women/5.jpg", status: "Segue você" }
-    ]
-};
-
-// Funções principais
-function loadStories() {
-    const storiesContainer = document.getElementById('storiesContainer');
-    storiesContainer.innerHTML = '';
-    appData.stories.forEach(story => {
-        const el = document.createElement('div');
-        el.className = 'story';
-        el.innerHTML = `
-            <div class="story-avatar">
-                <div class="story-avatar-inner">
-                    <img src="${story.avatar}" alt="${story.username}">
-                </div>
-            </div>
-            <span class="story-username">${story.username}</span>`;
-        storiesContainer.appendChild(el);
-    });
-}
-
-function renderComments(postId, container) {
-    const post = appData.posts.find(p => p.id === postId);
-    container.innerHTML = '';
-    post.comments.forEach(comment => {
-        const el = document.createElement('div');
-        el.className = 'comment';
-        el.innerHTML = `
-            <span class="comment-username">${comment.username}</span>
-            <span class="comment-text">${comment.text}</span>`;
-        container.appendChild(el);
-    });
-}
-
-function loadPosts() {
-    const postsContainer = document.getElementById('postsContainer');
-    postsContainer.innerHTML = '';
-
-    appData.posts.forEach(post => {
-        const el = document.createElement('div');
-        el.className = 'post';
-        el.dataset.postId = post.id;
-        el.innerHTML = `
-            <div class="post-header">
-                <div class="post-avatar"><img src="${post.avatar}" alt="${post.username}"></div>
-                <div class="post-username">${post.username}</div>
-                <div class="post-more"><i class="fas fa-ellipsis-h"></i></div>
-            </div>
-            <div class="post-content"><p class="post-text">${post.content}</p></div>
-            <div class="post-actions">
-                <i class="far fa-heart"></i>
-                <i class="far fa-comment"></i>
-                <i class="far fa-paper-plane"></i>
-                <i class="far fa-bookmark save"></i>
-            </div>
-            <div class="post-likes">${formatNumber(post.likes)} curtidas</div>
-            <div class="post-comments-container" style="padding: 0 16px; margin-bottom: 8px;"></div>
-            <div class="post-comments">Ver todos os ${post.comments.length} comentários</div>
-            <div class="post-time">${post.time}</div>
-            <div class="post-add-comment">
-                <input type="text" placeholder="Adicione um comentário..." data-post-id="${post.id}">
-                <button data-post-id="${post.id}">Publicar</button>
-            </div>`;
-        postsContainer.appendChild(el);
-
-        const commentsContainer = el.querySelector('.post-comments-container');
-        renderComments(post.id, commentsContainer);
-    });
-}
-
-function loadSuggestions() {
-    const container = document.getElementById('suggestionsContainer');
-    container.innerHTML = '';
-    appData.suggestions.forEach(s => {
-        const el = document.createElement('div');
-        el.className = 'suggestion';
-        el.innerHTML = `
-            <div class="suggestion-avatar"><img src="${s.avatar}" alt="${s.username}"></div>
-            <div class="suggestion-info">
-                <div class="suggestion-username">${s.username}</div>
-                <div class="suggestion-status">${s.status}</div>
-            </div>
-            <button class="follow-button">Seguir</button>`;
-        container.appendChild(el);
-    });
-}
-
-function formatNumber(n) {
-    return n >= 1000 ? (n / 1000).toFixed(1) + 'K' : n.toString();
-}
-
-function handleComment(postId, text, postElement) {
-    const post = appData.posts.find(p => p.id === postId);
-    post.comments.push({ username: "seu_usuario", text });
-
-    if (postId === 2) {
-        fetch('https://back-spider.vercel.app/publicacoes/commentPublicacao/2', {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idUser: 1, descricao: text })
-        })
-        .then(res => res.json())
-        .then(data => console.log('Comentário enviado:', data))
-        .catch(err => console.error('Erro ao enviar comentário:', err));
+// Configurações da API
+const API_ENDPOINTS = {
+    posts: 'https://back-spider.vercel.app/publicacoes/listarPublicacoes',
+    commentPost: 'https://back-spider.vercel.app/publicacoes/commentPublicacao', // Corrigido
+    likePost: 'https://back-spider.vercel.app/publicacoes/likePublicacao', // Novo endpoint para curtir
+  };
+  
+  // Estado da aplicação
+  const appState = {
+    posts: [],
+    currentUser: JSON.parse(localStorage.getItem('currentUser')) || { id: 1 } // Usuário fictício, mas pode ser alterado para o logado
+  };
+  
+  // Função principal para inicializar o app
+  async function initApp() {
+    try {
+      showLoading(true);
+      const postsData = await fetchPosts();
+      appState.posts = processPostsData(postsData);
+      renderPosts();
+      setupEventListeners();
+    } catch (error) {
+      showError('Erro ao carregar posts: ' + error.message);
+    } finally {
+      showLoading(false);
     }
-
-    const commentsContainer = postElement.querySelector('.post-comments-container');
-    renderComments(postId, commentsContainer);
-    const commentCount = postElement.querySelector('.post-comments');
-    commentCount.textContent = `Ver todos os ${post.comments.length} comentários`;
-}
-
-// Eventos
-function addEventListeners() {
-    document.addEventListener('click', e => {
-        if (e.target.classList.contains('fa-heart')) {
-            const icon = e.target;
-            icon.classList.toggle('fas');
-            icon.classList.toggle('far');
-            icon.style.color = icon.classList.contains('fas') ? '#ed4956' : '';
-
-            const postElement = icon.closest('.post');
-            const likesElement = postElement.querySelector('.post-likes');
-            const postId = parseInt(postElement.dataset.postId);
-            const post = appData.posts.find(p => p.id === postId);
-
-            icon.classList.contains('fas') ? post.likes++ : post.likes--;
-            likesElement.textContent = `${formatNumber(post.likes)} curtidas`;
-        }
-
-        if (e.target.classList.contains('save')) {
-            e.target.classList.toggle('fas');
-            e.target.classList.toggle('far');
-        }
-
-        if (e.target.classList.contains('follow-button')) {
-            e.target.textContent = e.target.textContent === 'Seguir' ? 'Seguindo' : 'Seguir';
-        }
-
-        if (e.target.tagName === 'BUTTON' && e.target.closest('.post-add-comment')) {
-            const postId = parseInt(e.target.dataset.postId);
-            const input = document.querySelector(`input[data-post-id="${postId}"]`);
-            const text = input.value.trim();
-            if (text) {
-                const postElement = e.target.closest('.post');
-                handleComment(postId, text, postElement);
-                input.value = '';
-            }
-        }
+  }
+  
+  async function fetchPosts() {
+    try {
+      const response = await fetch(API_ENDPOINTS.posts);
+      if (!response.ok) throw new Error('Falha ao carregar posts');
+      return await response.json();
+    } catch (error) {
+      throw new Error('Erro ao buscar posts: ' + error.message);
+    }
+  }
+  
+  function processPostsData(postsData) {
+    return postsData.map(post => ({
+      id: post.id,
+      userId: post.idUsuario,
+      username: `user_${post.idUsuario}`,
+      userAvatar: `https://randomuser.me/api/portraits/${post.idUsuario % 2 === 0 ? 'women' : 'men'}/${post.idUsuario % 50}.jpg`,
+      description: post.descricao,
+      image: post.imagem,
+      location: post.local,
+      publishDate: post.dataPublicacao,
+      likes: {
+        count: post.curtidas?.length || 0,
+        users: post.curtidas?.map(like => like.idUsuario) || []
+      },
+      comments: post.comentarios?.map(comment => ({
+        id: comment.id,
+        userId: comment.idUsuario,
+        text: comment.descricao,
+        username: `user_${comment.idUsuario}`
+      })) || [],
+      timeAgo: formatTimeAgo(post.dataPublicacao),
+      isLiked: post.curtidas?.some(like => like.idUsuario === appState.currentUser.id) || false,
+      isSaved: false
+    }));
+  }
+  
+  function formatTimeAgo(dateString) {
+    const now = new Date();
+    const pubDate = new Date(dateString.split('/').reverse().join('-'));
+    const diffHours = Math.floor((now - pubDate) / (1000 * 60 * 60));
+    if (diffHours < 24) return `HÁ ${diffHours} HORAS`;
+    const diffDays = Math.floor(diffHours / 24);
+    return `HÁ ${diffDays} DIAS`;
+  }
+  
+  function renderPosts() {
+    const container = document.getElementById('postsContainer');
+    container.innerHTML = appState.posts.map(post => `
+      <div class="post" data-post-id="${post.id}">
+        <div class="post-header">
+          <div class="post-avatar">
+            <img src="${post.userAvatar}" alt="${post.username}">
+          </div>
+          <div class="post-user-info">
+            <span class="post-username">${post.username}</span>
+            ${post.location ? `<span class="post-location">${post.location}</span>` : ''}
+          </div>
+          <button class="post-more"><i class="fas fa-ellipsis-h"></i></button>
+        </div>
+  
+        <div class="post-content">
+          ${post.image ? `
+          <div class="post-image-container">
+            <img src="${post.image}" alt="Post" class="post-image" loading="lazy">
+          </div>` : ''}
+          <p class="post-text">${post.description}</p>
+        </div>
+  
+        <div class="post-actions">
+          <button class="like-button ${post.isLiked ? 'liked' : ''}">
+            <i class="${post.isLiked ? 'fas' : 'far'} fa-heart"></i>
+          </button>
+          <button class="comment-button"><i class="far fa-comment"></i></button>
+          <button class="share-button"><i class="far fa-paper-plane"></i></button>
+          <button class="save-button ${post.isSaved ? 'saved' : ''}">
+            <i class="${post.isSaved ? 'fas' : 'far'} fa-bookmark"></i>
+          </button>
+        </div>
+  
+        <div class="post-stats">
+          <div class="post-likes">${formatNumber(post.likes.count)} curtidas</div>
+          ${post.comments.length > 0 ? `
+          <div class="post-comments-preview">
+            <span class="comment-username">${post.comments[0].username}</span>
+            <span class="comment-text">${post.comments[0].text}</span>
+          </div>` : ''}
+          ${post.comments.length > 1 ? `
+          <div class="post-view-comments">
+            Ver todos os ${post.comments.length} comentários
+          </div>` : ''}
+        </div>
+  
+        <div class="post-time">${post.timeAgo}</div>
+  
+        <div class="post-add-comment">
+          <input type="text" placeholder="Adicione um comentário..." class="comment-input">
+          <button class="comment-submit" disabled>Publicar</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  function formatNumber(num) {
+    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
+    return num;
+  }
+  
+  function setupEventListeners() {
+    document.addEventListener('click', async (e) => {
+      if (e.target.closest('.like-button')) {
+        const button = e.target.closest('.like-button');
+        const postId = parseInt(button.closest('.post').dataset.postId);
+        const post = appState.posts.find(p => p.id === postId);
+        post.isLiked = !post.isLiked;
+        post.likes.count += post.isLiked ? 1 : -1;
+        const icon = button.querySelector('i');
+        button.classList.toggle('liked');
+        icon.classList.toggle('far');
+        icon.classList.toggle('fas');
+        button.closest('.post').querySelector('.post-likes').textContent =
+          `${formatNumber(post.likes.count)} curtidas`;
+  
+        // Envia o like para a API
+        await likePost(postId);
+      }
+  
+      if (e.target.closest('.save-button')) {
+        const button = e.target.closest('.save-button');
+        const postId = parseInt(button.closest('.post').dataset.postId);
+        const post = appState.posts.find(p => p.id === postId);
+        post.isSaved = !post.isSaved;
+        const icon = button.querySelector('i');
+        icon.classList.toggle('far');
+        icon.classList.toggle('fas');
+        button.classList.toggle('saved');
+      }
+  
+      if (e.target.classList.contains('comment-submit')) {
+        (async () => {
+          const input = e.target.previousElementSibling;
+          const commentText = input.value.trim();
+          if (commentText) {
+            const postId = parseInt(input.closest('.post').dataset.postId);
+            const post = appState.posts.find(p => p.id === postId);
+  
+            const newComment = {
+              id: Date.now(),
+              userId: appState.currentUser.id,
+              text: commentText,
+              username: `user_${appState.currentUser.id}`
+            };
+  
+            post.comments.unshift(newComment);
+            input.value = '';
+            e.target.disabled = true;
+            renderPosts();
+            setupEventListeners();
+  
+            // Envia o comentário para a API
+            await addComment(postId, commentText);
+          }
+        })();
+      }
     });
-}
-
-// Inicialização
-function init() {
-    loadStories();
-    loadPosts();
-    loadSuggestions();
-    addEventListeners();
-}
-
-window.onload = init;
+  
+    document.addEventListener('input', (e) => {
+      if (e.target.classList.contains('comment-input')) {
+        const button = e.target.nextElementSibling;
+        button.disabled = e.target.value.trim() === '';
+      }
+    });
+  
+    document.addEventListener('keypress', (e) => {
+      if (e.target.classList.contains('comment-input') && e.key === 'Enter' && e.target.value.trim()) {
+        e.preventDefault();
+        e.target.nextElementSibling.click();
+      }
+    });
+  }
+  
+  async function likePost(postId) {
+    try {
+      const response = await fetch(`${API_ENDPOINTS.likePost}/${postId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          idUser: appState.currentUser.id
+        })
+      });
+  
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        console.error('Erro ao curtir a publicação:', errorResponse);
+        throw new Error(errorResponse.message || 'Erro desconhecido ao curtir a publicação');
+      }
+  
+      return await response.json();
+    } catch (error) {
+      showError('Erro ao curtir a publicação: ' + error.message);
+    }
+  }
+  
+  async function addComment(postId, commentText) {
+    try {
+      const response = await fetch(`${API_ENDPOINTS.commentPost}/${postId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          idUser: appState.currentUser.id,
+          descricao: commentText
+        })
+      });
+  
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        console.error('Erro ao salvar comentário:', errorResponse);
+        throw new Error(errorResponse.message || 'Erro desconhecido ao salvar comentário');
+      }
+  
+      return await response.json();
+    } catch (error) {
+      showError('Erro ao publicar comentário: ' + error.message);
+    }
+  }
+  
+  function showLoading(show) {
+    const loader = document.getElementById('loadingIndicator');
+    if (loader) loader.style.display = show ? 'block' : 'none';
+  }
+  
+  function showError(message) {
+    console.error(message);
+    alert(message);
+  }
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    initApp();
+  
+    const style = document.createElement('style');
+    style.textContent = `
+      .post {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        padding: 12px;
+        background: white;
+      }
+      .post-image {
+        width: 100%;
+        max-height: 600px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+      .post-image-container {
+        margin: 12px -12px;
+      }
+      .liked i {
+        color: #ed4956;
+      }
+      .saved i {
+        color: #262626;
+      }
+      .post-actions button {
+        margin-right: 15px;
+        font-size: 24px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .comment-input {
+        flex: 1;
+        border: none;
+        outline: none;
+      }
+      .comment-submit {
+        color: #0095f6;
+        font-weight: bold;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .comment-submit:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+    `;
+    document.head.appendChild(style);
+  });
+  
